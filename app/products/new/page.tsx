@@ -1,32 +1,41 @@
 'use client';
-import { useState } from 'react';
+import { useState, ChangeEvent, FormEvent } from 'react';
 import { useRouter } from 'next/navigation';
+import { Product, ProductFormData } from '@/type';
 
 export default function NewProduct() {
   const router = useRouter();
-  const [formData, setFormData] = useState({
+  const [formData, setFormData] = useState<ProductFormData>({
     name: '',
     description: '',
     price: '',
   });
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    // In a real application, this would be an API call to your backend
-    // For this example, we'll use localStorage to persist data
-    const products = JSON.parse(localStorage.getItem('products') || '[]');
-    const newProduct = {
-      id: products.length + 1,
-      ...formData,
-    };
-    products.push(newProduct);
-    localStorage.setItem('products', JSON.stringify(products));
+    try {
+      const products: Product[] = JSON.parse(
+        localStorage.getItem('products') || '[]'
+      );
+      const newProduct: Product = {
+        id: products.length + 1,
+        ...formData,
+        price: parseFloat(formData.price),
+      };
+      products.push(newProduct);
+      localStorage.setItem('products', JSON.stringify(products));
 
-    router.push(`/products/${newProduct.id}`);
+      router.push(`/products/${newProduct.id}`);
+    } catch (error) {
+      console.error('Error saving product:', error);
+      // Handle error appropriately
+    }
   };
 
-  const handleChange = (e) => {
+  const handleChange = (
+    e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => {
     setFormData({
       ...formData,
       [e.target.name]: e.target.value,
@@ -78,6 +87,8 @@ export default function NewProduct() {
             value={formData.price}
             onChange={handleChange}
             required
+            step="0.01"
+            min="0"
             className="w-full p-2 border rounded"
           />
         </div>

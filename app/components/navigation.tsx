@@ -1,8 +1,9 @@
+import { NavigationProps } from '@/type';
 import Link from 'next/link';
 
-export default function Navigation() {
+export default function Navigation({ className }: NavigationProps) {
   return (
-    <nav className="bg-gray-800 text-white p-4">
+    <nav className={`bg-gray-800 text-white p-4 ${className || ''}`}>
       <div className="container mx-auto flex items-center justify-between">
         <Link href="/" className="text-xl font-bold">
           Our Store

@@ -1,7 +1,12 @@
+import { ReactNode } from 'react';
 import Navigation from './components/navigation';
 import './globals.css';
 
-export default function RootLayout({ children }) {
+interface RootLayoutProps {
+  children: ReactNode;
+}
+
+export default function RootLayout({ children }: RootLayoutProps) {
   return (
     <html lang="en">
       <body>
