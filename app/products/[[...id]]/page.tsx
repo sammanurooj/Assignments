@@ -1,6 +1,6 @@
-'use client';
-import { Product } from '@/type';
-import { use, useEffect, useState } from 'react';
+"use client";
+import { Product } from "@/type";
+import { use, useEffect, useState } from "react";
 
 interface ProductDetailProps {
   params: Promise<{ id: string }>;
@@ -16,20 +16,20 @@ export default function ProductDetail({ params }: ProductDetailProps) {
     const fetchProduct = () => {
       try {
         const products: Product[] = JSON.parse(
-          localStorage.getItem('products') || '[]'
+          localStorage.getItem("products") || "[]",
         );
         const foundProduct = products.find(
-          (p) => p.id === parseInt(unwrappedParams.id)
+          (p) => p.id === parseInt(unwrappedParams.id),
         );
 
         if (foundProduct) {
           setProduct(foundProduct);
         } else {
-          setError('Product not found');
+          setError("Product not found");
         }
       } catch (error) {
-        setError('Error loading product');
-        console.error('Error fetching product:', error);
+        setError("Error loading product");
+        console.error("Error fetching product:", error);
       } finally {
         setLoading(false);
       }
@@ -50,7 +50,7 @@ export default function ProductDetail({ params }: ProductDetailProps) {
     return (
       <div className="min-h-screen p-8 flex items-center justify-center">
         <div className="text-xl text-red-600">
-          {error || 'Product not found'}
+          {error || "Product not found"}
         </div>
       </div>
     );

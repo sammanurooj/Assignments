@@ -1,14 +1,14 @@
-'use client';
-import { useState, ChangeEvent, FormEvent } from 'react';
-import { useRouter } from 'next/navigation';
-import { Product, ProductFormData } from '@/type';
+"use client";
+import { Product, ProductFormData } from "@/type";
+import { useRouter } from "next/navigation";
+import { ChangeEvent, FormEvent, useState } from "react";
 
 export default function NewProduct() {
   const router = useRouter();
   const [formData, setFormData] = useState<ProductFormData>({
-    name: '',
-    description: '',
-    price: '',
+    name: "",
+    description: "",
+    price: "",
   });
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
@@ -16,7 +16,7 @@ export default function NewProduct() {
 
     try {
       const products: Product[] = JSON.parse(
-        localStorage.getItem('products') || '[]'
+        localStorage.getItem("products") || "[]",
       );
       const newProduct: Product = {
         id: products.length + 1,
@@ -24,17 +24,17 @@ export default function NewProduct() {
         price: parseFloat(formData.price),
       };
       products.push(newProduct);
-      localStorage.setItem('products', JSON.stringify(products));
+      localStorage.setItem("products", JSON.stringify(products));
 
       router.push(`/products/${newProduct.id}`);
     } catch (error) {
-      console.error('Error saving product:', error);
+      console.error("Error saving product:", error);
       // Handle error appropriately
     }
   };
 
   const handleChange = (
-    e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+    e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
   ) => {
     setFormData({
       ...formData,
